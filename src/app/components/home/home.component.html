@@ -1,20 +1,20 @@
-<div id="intro-app" *ngIf="intro" style="text-align: center">
+<div id="intro-app" *ngIf="intro" style="text-align: center" class="m-5">
 
   <div>
-    <img alt="img-constech" style="width:90%"
+    <img alt="img-constech" style="width:70%"
       src="../../../assets/img/constech.png">
   </div>
 
-  <div class="animated fadeIn">
+  <div class="animated fadeIn m-5">
     <div class="col">
-      <i class="fa fa-sync fa-spin fa-3x"></i>
+      <i class="fa fa-spinner fa-spin fa-3x"></i>
     </div>
   </div>
 
 </div>
 
 
-<div class="container main-container" *ngIf="!intro">
+<div class="container main-container animated fadeIn fast" *ngIf="!intro">
     You can see a lot of information:
     <ul>
       <li> <a class="btn btn-warning" [routerLink]="['/realTimeMeasure']">Real time</a> </li>

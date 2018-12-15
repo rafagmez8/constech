@@ -1,5 +1,5 @@
-var express = require('express');
-var path = require('path');
+const express = require('express'),
+      path = require('path');
 var cors = require('cors');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -14,8 +14,7 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
-app.use(express.static(path.join(__dirname, 'dist')));
-app.use('/books', express.static(path.join(__dirname, 'dist')));
+app.use(express.static('./dist/constech'));
 app.use('/', api);
 
 // catch 404 and forward to error handler
@@ -40,7 +39,7 @@ app.use(function(err, req, res, next) {
 // Warning mongoose 5.x: replace useMongoClient: true, with useNewUrlParser: true,
 mongoose.connect('mongodb://rafaadmin:rafaadmin1@ds213472.mlab.com:13472/project-ammeters',
   { useNewUrlParser: true, promiseLibrary: require('bluebird') })
-    .then(() =>  console.log('Database: connection succesful'))
+    .then(() =>  console.log('Succesful connection to the database'))
     .catch((err) => console.error(err));
 
 module.exports = app;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,35 +10,26 @@ export class DatabaseService {
     console.log("Database Service Ready!");
   }
 
-  getQuery(query: string) {
-    const url = `http://localhost:3000/${query}`;
-
-    const headers = new HttpHeaders ({
-      'Access-Control-Allow-Origin': 'http://localhost:3000'
-    });
-
-    return this.http.get(url, {headers});
-  }
-
   getAllData() {
-    return this.getQuery('all');
+    return this.http.get('all');
+    //return this.getQuery('all');
     /*const headers = new HttpHeaders ({
-      'Access-Control-Allow-Origin': 'http://localhost:3000'
+      'Access-Control-Allow-Origin': 'http://localhost:8080'
     });
 
-    return this.http.get('http://localhost:3000/all', {headers});*/
+    return this.http.get('http://localhost:8080/all', {headers});*/
   }
 
   getDaysData() {
-    return this.getQuery('days');
+    return this.http.get('days');
   }
 
   getMonthData() {
-    return this.getQuery('month');
+    return this.http.get('month');
   }
 
   getYearData() {
-    return this.getQuery('year');
+    return this.http.get('year');
   }
 
 }
