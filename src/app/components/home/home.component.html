@@ -1,0 +1,25 @@
+<div id="intro-app" *ngIf="intro" style="text-align: center">
+
+  <div>
+    <img alt="img-constech" style="width:90%"
+      src="../../../assets/img/constech.png">
+  </div>
+
+  <div class="animated fadeIn">
+    <div class="col">
+      <i class="fa fa-sync fa-spin fa-3x"></i>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="container main-container" *ngIf="!intro">
+    You can see a lot of information:
+    <ul>
+      <li> <a class="btn btn-warning" [routerLink]="['/realTimeMeasure']">Real time</a> </li>
+      <li> <a class="btn btn-primary" [routerLink]="['/dailyMeasure']">Daily</a> </li>
+      <li> <a class="btn btn-secondary" [routerLink]="['/monthlyMeasure']">Monthly</a> </li>
+      <li> <a class="btn btn-link" [routerLink]="['/annualMeasure']">Annual</a> </li>
+    </ul>
+</div>
