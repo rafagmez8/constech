@@ -18,16 +18,15 @@ bool completeData = false;
 Queue <char, 32> queueMsg;
 char stringSendSerial[28]="";
 
-// Sensibilidad del sensor en V/A
-//float SENSIBILITY = 0.185;   // Modelo 5A
-//float SENSIBILITY = 0.100; // Modelo 20A
-//float SENSIBILITY = 0.066; // Modelo 30A
-/*ls -ltr /dev/*usb*
-screen /dev/tty.usbmodem14103*/
+// WATTS = AMPS X VOLTS  -->  40W=AMPS X 220V  -->  AMPS = 40/220 = 0.18A
+// SENSOR SENSIBILITY (V/A)
+//float sensibility = 0.185;   // Model 5A
+//float sensibility = 0.100; // Model 20A
+//float sensibility = 0.066; // Model 30A
 
 
 
-// WATIOS = AMPERIOS X VOLTIOS  -->  40W=AMPERIOS X 220V  -->  AMPERIOS = 40/220 = 0.18A
+// This function obtains the data measured by the ammeters.
 void getCurrents () {
     while(meditionDataThActive) {
         double r5, r20;
@@ -35,7 +34,6 @@ void getCurrents () {
         double amp5, amp20;
         double sumCurrent5 = 0;
         double sumCurrent20 = 0;
-        double sumAllCurrent = 0;
         double total5, total20, total;
         int samplesNumber = 200;
         
@@ -47,25 +45,28 @@ void getCurrents () {
             amp5 = abs((voltage5-1.65))/0.185; // 1.65V because the entry of ammeter is 3.3V.
             amp20 = abs((voltage20-1.65))/0.1; // 1.65V because the entry of ammeter is 3.3V.
             sumCurrent5 += amp5;
-            sumAllCurrent += amp5;
             sumCurrent20 += amp20;
-            sumAllCurrent += amp20;
         }
         
         total5 = sumCurrent5/samplesNumber;
         total20 = sumCurrent20/samplesNumber;
-        total = sumAllCurrent/samplesNumber;
+        
+        // To erase the invalid values of the ammeters. The valid values are between 0 and 1.
+        if (total5 > 1.0) { total5 = 0.0; }
+        if (total20 > 1.0) { total20 = 0.0; }
+        
+        total = total5 + total20;
         
         // Display values
-        //printf("measure = (5V) %.2f V (20V) %.2f V = %.2f A\r\n", voltage5, voltage20, total);
-        //printf("measure = (5V) %.2f V = %.2f A\r\n", voltage5, total5);
-        //printf("measure = (20V) %.2f V = %.2f A\r\n", voltage20, total20);
+        /*printf("measure = (5V) %.2f V (20V) %.2f V = %.2f A\r\n", voltage5, voltage20, total);
+        printf("measure = (5V) %.2f V = %.2f A\r\n", voltage5, total5);
+        printf("measure = (20V) %.2f V = %.2f A\r\n", voltage20, total20);*/
         wait(3); // 3 second
         
-        // QUEUE
+        // We build a message queue in which we enter the data. These data will be collected in the reception thread.
         char *corchEntr = "[";
         //usb.printf("insert [ -- corchEntr=%s\r\n", corchEntr);
-        queueMsg.put(corchEntr);
+        queueMsg.put(corchEntr); // We put a start character in the message queue
         itemInQueueMesg = true;
         wait(2);
         
@@ -74,14 +75,14 @@ void getCurrents () {
         sprintf(valueT, "%.2f", total);
         char *valueStringT = valueT;
         //usb.printf("insert valueT -- valueStringT=%s\r\n", valueStringT);
-        queueMsg.put(valueStringT);
+        queueMsg.put(valueStringT); // We put the total value of the ammeters in the message queue
         itemInQueueMesg=true;
         wait(2);
         
         itemInQueueMesg=false;
         char *charSep = ":";
         //usb.printf("insert : -- charSep=%s\r\n", charSep);
-        queueMsg.put(charSep);
+        queueMsg.put(charSep); // We put a separator character in the message queue
         itemInQueueMesg=true;
         wait(2);
         
@@ -90,13 +91,13 @@ void getCurrents () {
         sprintf(value5, "%.2f", total5);
         char *valueString5 = value5;
         //usb.printf("insert value5 -- valueString5=%s\r\n", valueString5);
-        queueMsg.put(valueString5);
+        queueMsg.put(valueString5); // We put the value measured by the 5V ammeter in the message queue
         itemInQueueMesg=true;
         wait(2);
         
         itemInQueueMesg=false;
         //usb.printf("insert : -- charSep=%s\r\n", charSep);
-        queueMsg.put(charSep);
+        queueMsg.put(charSep); // We put a separator character in the message queue
         itemInQueueMesg=true;
         wait(2);
         
@@ -105,24 +106,24 @@ void getCurrents () {
         sprintf(value20, "%.2f", total20);
         char *valueString20 = value20;
         //usb.printf("insert value20 -- valueString20=%s\r\n", valueString20);
-        queueMsg.put(valueString20);
+        queueMsg.put(valueString20);// We put the value measured by the 20V ammeter in the message queue
         itemInQueueMesg=true;
         wait(2);
         
         itemInQueueMesg=false;
         char *corchExit = "]";
         //usb.printf("insert ] -- corchExit=%s\r\n", corchExit);
-        queueMsg.put(corchExit);
+        queueMsg.put(corchExit); // We put an end character in the message queue
         itemInQueueMesg=true;
         
         wait(1);
         itemInQueueMesg=false;
-        wait(20);
+        wait(44); // Wait 44 seconds to make a measurement per minute
     }
 }
 
 
-
+// This function checks that the message queue contains all the data.
 void reception () {
     while(receptionDataThActive) {
         if (itemInQueueMesg) {
@@ -132,7 +133,7 @@ void reception () {
             if(evento.status == osEventMessage){
                 char *item = (char*)evento.value.p;
                 strcat(stringSendSerial, item);
-                //printf("\nitem of queueMesg: %s || stringSendSerial: %s\r\n", item, stringSendSerial);
+                //printf("\nlast item of the queueMesg: %s || stringSendSerial: %s\r\n", item, stringSendSerial);
                 
                 if (strcmp(item, fin) == 0) {
                     //printf("Built data string...\r\n");
@@ -144,22 +145,22 @@ void reception () {
 }
 
 
-
+// This function sends the data trougth the serial port
 void sendToSerial () {
     while(receptionDataThActive) {
         if (completeData) {
             completeData = false;
             usb.printf(stringSendSerial);
             memset(stringSendSerial, 0, 28);
-            //printf("\r\nSe han mandado los datos y se ha vaciado el array\r\n\n");
+            //printf("\r\nThe data has been sent through the serial port and the array has been emptied\r\n\n");
         }
     }
 }
 
 
-
+// This function is the main function, which starts the threads and their flags.
 int main() {
-    //while(usb.readable() == 0) { wait(3); } //wait to serial available
+    while(usb.readable() == 0) { wait(3); } //wait to serial available
     while(1) {
         if (!meditionDataThActive && !receptionDataThActive && !sendDataThActive) {
             meditionDataThActive = true;
@@ -171,32 +172,3 @@ int main() {
         }
     }
 }
-
-
-
-
-
-/*¿Cómo puedo hacer que siempre esté escuchando el puerto serie? Cuando me llegue un carácter distinto dejo
-de hacer lo que esté haciendo, vaya por donde vaya. ¿Uso break?*/
-
-
-/* Se harían tareas para:
-    - La lectura de los datos del sensor. (getCurrent())
-    - El envío de los datos por el puerto serie. (sendDataToSerial())
-    - El envío de información en tiempo real a la app cuando se solicite, además del histórico de mediciones.
-        Se tendrán que usar interrupciones cuando la raspberry mande ciertos caracteres.
-        Ver la posibilidad de usar varios hilos:
-            * Uno para la comunicación normal con la raspberry.
-            * Uno para la comunicación bajo demanda por parte de la app.*/
-
-/*Otra idea sería crear un solo hilo para obtener y mandar los datos de los sensores pero controlado por un semáforo.
-Como tenemos dos sensores, se pueden hacer las lecturas de dos formas:
-    - Leer los dos sensores uno detrás de otro si el usuario no pide información en tiempo real.
-    - Leer un sensor u otro dependiendo de la información que quiera ver el usuario.*/
-
-
-/*Finalmente, los hilos a utilizar serán:
-    - Medición de datos.
-    - Recepción de datos.
-    - Envío de datos por el puerto serie.
-*/
