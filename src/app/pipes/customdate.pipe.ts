@@ -37,7 +37,6 @@ export class CustomDate implements PipeTransform {
 
     else if (elems[numElem].length == 2) {
       if (elems.length == 2) {
-        console.log("dos elementos if");
         res = `${month} 20${elems[numElem]}`;
       }
       else {

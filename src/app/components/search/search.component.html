@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col">
+    <input type="text" class="form-control" placeholder="Search measure or date..."
+      (keyup)="getResultsOfSearch(searchText.value)" #searchText>
+  </div>
+</div>
+
+<app-loading *ngIf="loading" class="m-5"></app-loading>
+
+<div class="container animated fadeIn fast mt-4" *ngIf="!loading && resultAllData != undefined && seeAllDataContainer === true">
+
+  <div *ngFor="let measure of resultAllData; let i=index">
+    <h5>Date: {{ measure.date | date:'dd MMMM yyyy' }}</h5>
+    <ul class="list-group">
+        <li class="list-group-item">Hour: {{ measure.hour }}</li>
+        <li class="list-group-item">Total: {{ getNumber(measure.total) | number:'.2-3' }} KW</li>
+        <li class="list-group-item">5V Sensor: {{ measure.fivev_sensor }} KW</li>
+        <li class="list-group-item">20V Sensor: {{ measure.twentyv_sensor }} KW</li>
+        <li class="list-group-item">Total money: {{ getNumber(measure.total_money) | currency:'':'':'.2-6' }} €</li>
+        <li class="list-group-item">5V money: {{ measure.fivev_money }}</li>
+        <li class="list-group-item">20V money: {{ measure.twentyv_money }}</li>
+        <br>
+    </ul>
+  </div>
+
+</div>
+
+<app-month-year-table *ngIf="!loading" [mData]="resultDaysData"
+  [typeTable]="seeDaysDataContainer"></app-month-year-table>
+
+<app-month-year-table *ngIf="!loading" [mData]="resultMonthData"
+  [typeTable]="seeMonthDataContainer"></app-month-year-table>
+
+<app-month-year-table *ngIf="!loading" [mData]="resultYearData"
+  [typeTable]="seeYearDataContainer"></app-month-year-table>
+
+<div *ngIf="resultAllData.length == 0 && resultDaysData.length == 0 &&
+            resultMonthData.length == 0 && resultYearData.length == 0 &&
+            text.length > 0" class="row animated fadeIn fast m-5">
+  <div class="col-md-12">
+    <div class="alert alert-primary" role="alert">
+      There are no items which contain "{{ text }}".
+    </div>
+  </div>
+</div>

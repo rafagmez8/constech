@@ -15,11 +15,10 @@
 
 
 <div class="container main-container animated fadeIn fast" *ngIf="!intro">
-    You can see a lot of information:
-    <ul>
-      <li> <a class="btn btn-warning" [routerLink]="['/realTimeMeasure']">Real time</a> </li>
-      <li> <a class="btn btn-primary" [routerLink]="['/dailyMeasure']">Daily</a> </li>
-      <li> <a class="btn btn-secondary" [routerLink]="['/monthlyMeasure']">Monthly</a> </li>
-      <li> <a class="btn btn-link" [routerLink]="['/annualMeasure']">Annual</a> </li>
-    </ul>
+    You can see a lot of information of your measurements:
+    <br><br>
+    <a class="btn btn-primary btn-lg btn-block" [routerLink]="['/realTimeMeasure']">Real time</a>
+    <a class="btn btn-primary btn-lg btn-block" [routerLink]="['/dailyMeasure']">Daily</a>
+    <a class="btn btn-primary btn-lg btn-block" [routerLink]="['/monthlyMeasure']">Monthly</a>
+    <a class="btn btn-primary btn-lg btn-block" [routerLink]="['/annualMeasure']">Annual</a>
 </div>

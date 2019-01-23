@@ -1,32 +1,20 @@
 <app-loading *ngIf="loading"></app-loading>
 
-<div class="container animated fadeIn fast" *ngIf="!loading">
+<!--Si se llega al limite de potencia se llama a empty-data para mostrar una alerta, la cual se ha de crear-->
 
-  <div class="row">
-    <div class="col-md-8">
-      <h2>Real-Time Measures:</h2>
-    </div>
-    <div class="col-md-4">
-      <a class="btn btn-outline-secondary" (click)="getRealTimeData()">Refresh</a>
-    </div>
+<div class="row animated fadeIn fast" *ngIf="!loading">
+  <div class="col-md-8">
+    <h2>Real-Time Measurement:</h2>
   </div>
-
-  <br><br>
-
-  <div *ngFor="let measure of allData; let i=index">
-
-    <div *ngIf="len==i">
-      <h5>Date: {{ measure.date | date:'dd MMMM yyyy' }} </h5>
-      <h5> Hour: {{ measure.hour }} </h5>
-      <ul class="list-group">
-          <li class="list-group-item">Total: {{ measure.total }} A</li>
-          <li class="list-group-item">Total: {{ getNumber(measure.total) | number:'.2-2' }} A</li>
-          <li class="list-group-item">Total money: {{ measure.total_money }}</li>
-          <li class="list-group-item">Total money: {{ getNumber(measure.total_money) | currency:'EUR':'symbol':'.2-2' }}</li>
-          <br>
-      </ul>
-    </div>
-
+  <div class="col-md-4">
+    <a class="btn btn-primary btn-lg" style="color: white" onclick="window.location.reload()">Refresh</a>
   </div>
-
 </div>
+
+<br><br>
+
+<app-empty-data *ngIf="!loading" [typeTable]="typeTableRT" [len]="allData.length"
+  [limitPower]="limitReached" [error]="error" [errorMessage]="errorMessage"></app-empty-data>
+
+<app-month-year-table *ngIf="!loading" [mData]="allData" [lenRT]="len"
+  [typeTable]="typeTableRT"></app-month-year-table>

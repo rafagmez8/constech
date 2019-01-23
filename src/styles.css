@@ -6,6 +6,11 @@ body {
   margin-top: 20px;
 }
 
+.btn{
+  color: white;
+  background-color: #0000CD;
+}
+
 .footer {
   color: white;
   position: fixed; /* Absolute position */

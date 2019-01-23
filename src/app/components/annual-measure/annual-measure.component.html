@@ -1,27 +1,18 @@
 <app-loading *ngIf="loading"></app-loading>
 
-<div class="container animated fadeIn fast" *ngIf="!loading">
-
-  <div class="row">
-    <div class="col-md-8">
-      <h2>Annual Measures:</h2>
-    </div>
-    <div class="col-md-4">
-      <a class="btn btn-outline-secondary" (click)="getYearData()">Refresh</a>
-    </div>
+<div class="row animated fadeIn fast" *ngIf="!loading">
+  <div class="col-md-8">
+    <h2>Annual Measurements:</h2>
   </div>
-
-  <br><br>
-
-  <div *ngFor="let measure of yearData">
-    <h5>Year: {{ measure.year | customdate:"measure.year" }}</h5>
-    <ul class="list-group">
-        <li class="list-group-item">Total: {{ measure.total }} A</li>
-        <li class="list-group-item">Middle Value: {{ measure.middle_value }} A</li>
-        <li class="list-group-item">Total Money: {{ measure.total_money }} A</li>
-        <li class="list-group-item">Middle Value Money: {{ measure.middle_value_money }}</li> <!--| currency:'EUR':'symbol':'.0-2'  -->
-        <br>
-    </ul>
+  <div class="col-md-4">
+    <a class="btn btn-primary btn-lg" style="color: white" onclick="window.location.reload()">Refresh</a>
   </div>
-
 </div>
+
+<br><br>
+
+<app-empty-data *ngIf="!loading" [typeTable]="typeTableA" [len]="yearData.length"
+  [error]="error" [errorMessage]="errorMessage"></app-empty-data>
+
+<app-month-year-table *ngIf="!loading" [mData]="yearData"
+  [typeTable]="typeTableA"></app-month-year-table>

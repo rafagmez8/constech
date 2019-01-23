@@ -1,0 +1,84 @@
+<app-loading *ngIf="loading"></app-loading>
+
+<div class="row animated fadeIn fast" *ngIf="!loading">
+  <div class="col-md-8">
+    <h2>Electricity Rates:</h2>
+  </div>
+
+  <br><br>
+
+  <div class="animated fadeIn fast m-4" *ngFor="let item of rates">
+    <hr>
+    <h1 class="animated fadeIn">{{ item.empresa | uppercase}}</h1>
+    <hr>
+
+    <div class="row animated fadeIn fast" *ngIf="item.empresa == 'Endesa'">
+      <div class="col-md-4">
+        <img class="img-fluid" src="../../assets/img/endesa-logo.png" [alt]="item.empresa">
+      </div>
+      <div class="col-md-8">
+        <hr>
+        <h3>Maximum power: {{item.limitepotenciakw}} KW</h3>
+        <hr>
+        <p>Rate name: <strong>{{item.tarifa}}</strong></p>
+        <p>Price of the contracted power (KW/month): {{item.precioPotenciaContratadakwmes}} €</p>
+        <p>Energy price (KWh): {{item.precioEnergiakwh}} €</p>
+        <p>Permanence: {{item.permanencia}}</p>
+        <p>Means for contracting: {{item.contratacion}}</p>
+        <p>Billing: {{item.facturacion}}</p>
+        <p>Client type: {{item.tipoCliente}}</p>
+        <p>Offer duration: {{item.tiempoOferta}}</p>
+      </div>
+    </div>
+
+    <div class="row animated fadeIn fast" *ngIf="item.empresa == 'Iberdrola'">
+      <div class="col-md-4">
+        <img class="img-fluid" src="../../assets/img/iberdr-logo.png" [alt]="item.empresa">
+      </div>
+      <div class="col-md-8">
+        <hr>
+        <h3>Maximum power: {{item.limitepotenciakw}} KW</h3>
+        <hr>
+        <p>Rate name: <strong>{{item.tarifa}}</strong></p>
+        <p>Price of the contracted power (KW/month): {{item.precioPotenciaContratadakwmes}} €</p>
+        <p>Energy price in period promoted (KWh/month): {{item.precioEnergiaPromokwh}} €</p>
+        <p>Energy price in period not promoted (KWh/month): {{item.precioEnergiaNoPromokwh}} €</p>
+        <p>Permanence: {{item.permanencia}}</p>
+        <p>Means for contracting: {{item.contratacion}}</p>
+        <p>Billing: {{item.facturacion}}</p>
+        <p>Consumption duration: {{item.tiempoConsumo}}</p>
+        <p>Offer duration: {{item.tiempoOferta}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!--<div class="card animated fadeIn fast" style="width: 18rem;" *ngIf="!loading" *ngFor="let item of rates">
+  <div *ngIf="item.empresa == 'Endesa'">
+    <img class="card-img-top img-fluid" src="../../assets/img/endesa-logo.png" [alt]="rates.empresa">
+    <div class="card-body">
+      <h5 class="card-title">{{item.tipo}}</h5>
+      <div *ngIf="item.tipo == 'Luz'">
+        <strong class="card-title">maximum power: {{item.limitepotenciakw}} KW</strong>
+      </div>
+      <div *ngIf="item.tipo.indexOf('Gas') > -1">
+        <strong class="card-title">consuption limit: {{item.limiteconsumokwhanio}} KWh/year</strong>
+      </div>
+      <p class="card-text">{{item.intro}}</p>
+      <a href="#" class="btn btn-outline-primary btn-block">See more</a>
+    </div>
+  </div>
+
+  <div *ngIf="item.empresa == 'Gas Natural'"></div>
+  <div *ngIf="item.empresa == 'Iberdrola'"></div>
+</div>-->

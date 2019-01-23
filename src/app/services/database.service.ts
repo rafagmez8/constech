@@ -1,6 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+export interface AllDataInterface {
+  date: String;
+  hour: String;
+  total: String;
+  fivev_sensor: String;
+  twentyv_sensor: String;
+  total_money: Number;
+  fivev_money: Number;
+  twentyv_money: Number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,4 +43,7 @@ export class DatabaseService {
     return this.http.get('year');
   }
 
+  getLimitedPower() {
+    return this.http.get('limitpower');
+  }
 }

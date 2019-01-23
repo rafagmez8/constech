@@ -1,0 +1,68 @@
+<!-- div RealTime Measures -->
+<div class="container animated fadeIn fast" *ngIf="typeTable == 'realtime'">
+
+  <div *ngFor="let measure of mData; let i=index">
+
+    <div *ngIf="lenRT==i">
+      <h5>Date: {{ measure.date | date:'dd MMMM yyyy' }}</h5>
+      <ul class="list-group">
+          <li class="list-group-item">Total: {{ getNumber(measure.total) | number:'.2-3' }} KW</li>
+          <li class="list-group-item">Total money: {{ getNumber(measure.total_money) | currency:'':'':'.2-6' }} €</li>
+          <br>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- div Daily Measures -->
+<div class="container animated fadeIn fast" *ngIf="typeTable == 'day'">
+
+  <div *ngFor="let measure of mData">
+    <h5>Date: {{ measure.date | date:'dd MMMM yyyy' }}</h5>
+    <ul class="list-group">
+        <li class="list-group-item">Total: {{ getNumber(measure.total) | number:'.2-3' }} KW</li>
+        <li class="list-group-item">Middle Value: {{ getNumber(measure.total)/measure.numData | number:'.2-3' }} KW</li>
+        <li class="list-group-item">Total money: {{ getNumber(measure.total_money) | currency:'':'':'.2-6' }} €</li><!--'EUR':'symbol'-->
+        <li class="list-group-item">Middle Value money: {{ getNumber(measure.total_money)/measure.numData | currency:'':'':'.2-6' }} €</li>
+        <br>
+    </ul>
+  </div>
+
+</div>
+
+
+<!-- div Monthly Measures -->
+<div class="container animated fadeIn fast" *ngIf="typeTable == 'month'">
+
+  <div *ngFor="let measure of mData">
+    <h5>Date: {{ measure.date | customdate:"measure.date" }}</h5>
+    <ul class="list-group">
+        <li class="list-group-item">Total: {{ getNumber(measure.total) | number:'.2-3' }} KW</li>
+        <li class="list-group-item">Middle Value: {{ measure.middle_value | number:'.2-3' }} KW</li>
+        <li class="list-group-item">Total money: {{ getNumber(measure.total_money) | currency:'':'':'.2-6' }} €</li>
+        <li class="list-group-item">Middle Value Money: {{ getNumber(measure.middle_value_money) | currency:'':'':'.2-6' }} €</li>
+        <br>
+    </ul>
+  </div>
+
+</div>
+
+
+<!-- div Annual Measures -->
+<div class="container animated fadeIn fast" *ngIf="typeTable == 'annual'">
+
+  <div *ngFor="let measure of mData">
+    <h5>Year: {{ measure.year | customdate:"measure.year" }}</h5>
+    <ul class="list-group">
+        <li class="list-group-item">Total: {{ getNumber(measure.total) | number:'.2-3' }} KW</li>
+        <li class="list-group-item">Middle Value: {{ measure.middle_value | number:'.2-3' }} KW</li>
+        <li class="list-group-item">Total Money: {{ measure.total_money | currency:'':'':'.2-6' }} €</li>
+        <li class="list-group-item">Middle Value Money: {{ measure.middle_value_money | currency:'':'':'.2-6' }} €</li>
+        <br>
+    </ul>
+  </div>
+
+</div>

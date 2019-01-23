@@ -1,0 +1,19 @@
+<div class="alert alert-danger animated fadeIn fast" *ngIf="error">
+  <h3>ERROR</h3>
+  <p>{{ errorMessage }}</p>
+</div>
+
+<div class="alert alert-danger animated fadeIn fast" role="alert"
+*ngIf="len === 0 && !error">
+  <h4> :( </h4>
+  <div *ngIf="typeTable == 'realtime'">Sorry, there are no realtime measurements, try it later</div>
+  <div *ngIf="typeTable == 'day'">Sorry, there are no daily measurements, try it later</div>
+  <div *ngIf="typeTable == 'month'">Sorry, there are no monthly measurements, try it later</div>
+  <div *ngIf="typeTable == 'annual'">Sorry, there are no annual measurements, try it later</div>
+</div>
+
+<div class="alert alert-danger animated fadeIn fast" role="alert"
+*ngIf="limitPower && !error">
+  <h4> :( </h4>
+  <div>Sorry, you have reached the limit of your contracted power</div>
+</div>
