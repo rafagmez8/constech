@@ -1,6 +1,4 @@
-<app-loading *ngIf="loading"></app-loading>
-
-<div class="row animated fadeIn fast" *ngIf="!loading">
+<div class="row animated fadeIn fast">
   <div class="col-md-8">
     <h2>Electricity Rates:</h2>
   </div>
@@ -53,32 +51,3 @@
   </div>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-<!--<div class="card animated fadeIn fast" style="width: 18rem;" *ngIf="!loading" *ngFor="let item of rates">
-  <div *ngIf="item.empresa == 'Endesa'">
-    <img class="card-img-top img-fluid" src="../../assets/img/endesa-logo.png" [alt]="rates.empresa">
-    <div class="card-body">
-      <h5 class="card-title">{{item.tipo}}</h5>
-      <div *ngIf="item.tipo == 'Luz'">
-        <strong class="card-title">maximum power: {{item.limitepotenciakw}} KW</strong>
-      </div>
-      <div *ngIf="item.tipo.indexOf('Gas') > -1">
-        <strong class="card-title">consuption limit: {{item.limiteconsumokwhanio}} KWh/year</strong>
-      </div>
-      <p class="card-text">{{item.intro}}</p>
-      <a href="#" class="btn btn-outline-primary btn-block">See more</a>
-    </div>
-  </div>
-
-  <div *ngIf="item.empresa == 'Gas Natural'"></div>
-  <div *ngIf="item.empresa == 'Iberdrola'"></div>
-</div>-->

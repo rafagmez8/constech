@@ -27,7 +27,7 @@ export class DatabaseService {
     /*const headers = new HttpHeaders ({
       'Access-Control-Allow-Origin': 'http://localhost:8080'
     });
-
+    
     return this.http.get('http://localhost:8080/all', {headers});*/
   }
 

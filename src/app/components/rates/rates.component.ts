@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class RatesComponent implements OnInit {
-  private rates: any[] = [
+  rates: any[] = [
     {
       empresa: "Endesa",
       tarifa: "One",
