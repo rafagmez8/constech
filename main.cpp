@@ -51,9 +51,9 @@ void getCurrents () {
         total5 = sumCurrent5/samplesNumber;
         total20 = sumCurrent20/samplesNumber;
         
-        // To erase the invalid values of the ammeters. The valid values are between 0 and 1.
-        if (total5 > 1.0) { total5 = 0.0; }
-        if (total20 > 1.0) { total20 = 0.0; }
+        // To erase the invalid values of the ammeters. Noise error -> 1%.
+        if (total5 < 0.05) { total5 = 0.0; }
+        if (total20 < 0.2) { total20 = 0.0; }
         
         total = total5 + total20;
         
@@ -147,7 +147,7 @@ void reception () {
 
 // This function sends the data trougth the serial port
 void sendToSerial () {
-    while(receptionDataThActive) {
+    while(sendDataThActive) {
         if (completeData) {
             completeData = false;
             usb.printf(stringSendSerial);
